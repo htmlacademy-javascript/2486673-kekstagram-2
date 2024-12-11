@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Егор Авдощенко](https://up.htmlacademy.ru/javascript-individual/2/user/2486673).
-* Наставник: `Неизвестно`.
+* Наставник: [Артём Картавый](https://htmlacademy.ru/profile/artem_k).
 
 ---
 
