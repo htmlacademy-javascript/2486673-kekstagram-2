@@ -1,13 +1,13 @@
 
 
-const checkLength = (string, maxlength) => (string.length <= maxlength);
+const checkLength = (string, maxlength) => string.length <= maxlength;
+
+checkLength('qwerty', 6);
 
 
 const checkPalindrome = (string) => {
-  if (!string) {
-    return false;
-  }
-  string = string.replaceAll(' ', '').toLowerCase ();
+
+  string = string.replaceAll(' ', '').toLowerCase();
   let reversedString = '';
   for (let i = string.length - 1; i >= 0; i--) {
     reversedString += string[i];
@@ -15,6 +15,7 @@ const checkPalindrome = (string) => {
   return string === reversedString;
 };
 
+checkPalindrome('qwerty');
 
 const extractNumber = (string = '') => {
   string = string.toString();
@@ -27,3 +28,5 @@ const extractNumber = (string = '') => {
 
   return result === '' ? NaN : Number(result);
 };
+
+extractNumber('qwerty123');
