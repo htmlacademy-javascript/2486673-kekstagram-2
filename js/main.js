@@ -1,5 +1,20 @@
 const DESCRIPTION_AMOUNT = 25;
 
+const LIKES = {
+  MIN: 15,
+  MAX: 200,
+};
+
+const AVATAR_NUMBER = {
+  MIN: 1,
+  MAX: 6,
+};
+
+const COMMENTS_NUMBER = {
+  MIN: 1,
+  MAX: 30,
+};
+
 const NAMES = [
   'Иван',
   'Хуан Себастьян',
@@ -20,7 +35,7 @@ const COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'Жизнь – это коллекция моментов, а не вещей',
   'Пойман в моменте счастья',
   'Когда слова излишни',
@@ -39,43 +54,31 @@ const getRandomInteger = (min, max) => {
   return Math.floor(result);
 };
 
-const getRandomId = (min, max) => {
-  const previosValues = [];
-
-  return function() {
-    let currentValue = getRandomInteger(min, max);
-    if (previosValues.length >= (max - min + 1)) {
-      return null;
-    }
-    while (previosValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-    previosValues.push(currentValue);
-    return currentValue;
-  };
+const getId = () => {
+  let currentId = 0;
+  return () => ++currentId;
 };
 
-// randomId внезапно начала отдавать null, якобы соблюдается это условие if (previosValues.length >= (max - min + 1)) {
-//   return null, хотя randomCommentsId работает. Не могу разобраться.
-
-const randomId = getRandomId(1, 25);
-const randomCommentsId = getRandomId(1, 1000000);
+const getCommentId = getId();
+const getPhotoId = getId();
 
 const createComments = () => ({
-  id: randomCommentsId(),
-  avatar: `img/avatar-${ getRandomInteger(1, 6)}.svg`,
+  id: getCommentId(),
+  avatar: `img/avatar-${ getRandomInteger(AVATAR_NUMBER.MIN, AVATAR_NUMBER.MAX)}.svg`,
   name: NAMES[getRandomInteger(0, NAMES.length - 1)],
   message: COMMENTS[getRandomInteger(0, COMMENTS.length - 1)],
 });
 
-
-const createPhotoDescription = () => ({
-  id: randomId(),
-  url: `photos/${randomId()}.jpg`,
-  description: DESCRIPTION[getRandomInteger(0, DESCRIPTION.length - 1)],
-  likes: getRandomInteger(15, 200),
-  comments: Array.from({length: getRandomInteger(1, 30)}, createComments),
-});
+const createPhotoDescription = () => {
+  const id = getPhotoId();
+  return {
+    id,
+    url: `photos/${id}.jpg`,
+    description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
+    likes: getRandomInteger(LIKES.MIN, LIKES.MAX),
+    comments: Array.from({length: getRandomInteger(COMMENTS_NUMBER.MIN, COMMENTS_NUMBER.MAX)}, createComments),
+  };
+};
 
 const getPhotos = () => Array.from({length: DESCRIPTION_AMOUNT}, createPhotoDescription);
 
