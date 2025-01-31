@@ -1,4 +1,4 @@
-
+const MINUTES_IN_HOUR = 60;
 
 const checkLength = (string, maxlength) => string.length <= maxlength;
 
@@ -32,9 +32,6 @@ const extractNumber = (string = '') => {
 extractNumber('qwerty123');
 
 // Задание "функции возвращаются"
-
-
-const MINUTES_IN_HOUR = 60;
 
 const getTime = (time) => {
   const [hours, minutes] = time.split(':').map(Number);
