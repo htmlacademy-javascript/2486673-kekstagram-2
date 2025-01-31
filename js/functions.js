@@ -1,4 +1,4 @@
-
+const MINUTES_IN_HOUR = 60;
 
 const checkLength = (string, maxlength) => string.length <= maxlength;
 
@@ -30,3 +30,20 @@ const extractNumber = (string = '') => {
 };
 
 extractNumber('qwerty123');
+
+// Задание "функции возвращаются"
+
+const getTime = (time) => {
+  const [hours, minutes] = time.split(':').map(Number);
+  return hours * MINUTES_IN_HOUR + minutes;
+};
+
+const isInWorkingTime = function (workStart, workEnd, meetingStart, meetingTime) {
+  const workStartInMinute = getTime(workStart);
+  const workEndInMinute = getTime(workEnd);
+  const meetingStartInMinute = getTime(meetingStart);
+  const meetingEnd = meetingStartInMinute + Number(meetingTime);
+
+  return workStartInMinute < meetingStartInMinute && meetingEnd < workEndInMinute;
+};
+isInWorkingTime();
