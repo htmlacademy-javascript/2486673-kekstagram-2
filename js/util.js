@@ -15,3 +15,4 @@ const getPhotoId = getId();
 
 export { getRandomInteger, getCommentId, getPhotoId };
 
+//r
