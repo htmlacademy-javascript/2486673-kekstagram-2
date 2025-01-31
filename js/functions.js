@@ -33,12 +33,12 @@ extractNumber('qwerty123');
 
 // Задание "функции возвращаются"
 
-// переводим полученное значение часов в минуты, минуты приводим к числу. складываем часы с минутами.
+
+const MINUTES_IN_HOUR = 60;
 
 const getTime = (time) => {
-  const timeArray = time.split(':').map((string) => +string);
-  const timeInMinutes = (timeArray[0] * 60) + timeArray[1];
-  return timeInMinutes;
+  const [hours, minutes] = time.split(':').map(Number);
+  return hours * MINUTES_IN_HOUR + minutes;
 };
 
 const isInWorkingTime = function (workStart, workEnd, meetingStart, meetingTime) {
@@ -47,17 +47,6 @@ const isInWorkingTime = function (workStart, workEnd, meetingStart, meetingTime)
   const meetingStartInMinute = getTime(meetingStart);
   const meetingEnd = meetingStartInMinute + Number(meetingTime);
 
-  if (workStartInMinute > meetingStartInMinute || workEndInMinute < meetingStartInMinute) {
-    return false;
-  }
-  if (meetingEnd > workEndInMinute) {
-    return false;
-  }
-  return true;
+  return workStartInMinute < meetingStartInMinute && meetingEnd < workEndInMinute;
 };
-
-isInWorkingTime('8:00', '17:30', '14:00', 90); // true
-isInWorkingTime('8:0', '10:0', '8:0', 120); // true
-isInWorkingTime('08:00', '14:30', '14:00', 90); // false
-isInWorkingTime('14:00', '17:30', '08:0', 90); // false
-isInWorkingTime('8:00', '17:30', '08:00', 900); // false
+isInWorkingTime();
