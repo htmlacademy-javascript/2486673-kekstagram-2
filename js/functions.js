@@ -44,6 +44,6 @@ const isInWorkingTime = function (workStart, workEnd, meetingStart, meetingTime)
   const meetingStartInMinute = getTime(meetingStart);
   const meetingEnd = meetingStartInMinute + Number(meetingTime);
 
-  return workStartInMinute < meetingStartInMinute && meetingEnd < workEndInMinute;
+  return workStartInMinute < meetingStartInMinute && meetingEnd <= workEndInMinute;
 };
 isInWorkingTime();
