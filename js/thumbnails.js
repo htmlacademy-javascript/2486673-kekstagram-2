@@ -1,7 +1,3 @@
-import { getPhotos } from './photo-description.js';
-
-const photos = getPhotos();
-
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
@@ -20,8 +16,8 @@ const createThumbnail = ({url, description, likes, comments}) => {
   fragment.append(thumbnail);
 };
 
-const createThumbnails = () =>{
-  photos.forEach(createThumbnail);
+const createThumbnails = (photo) =>{
+  photo.forEach(createThumbnail);
   container.append(fragment);
 };
 
