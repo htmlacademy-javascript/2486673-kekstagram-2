@@ -5,7 +5,7 @@ const container = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const bigPictureLikesCount = bigPicture.querySelector('.likes-count');
-const bigPictureShownComments = bigPicture.querySelector('.social__comment-shown-count');
+// const bigPictureShownComments = bigPicture.querySelector('.social__comment-shown-count');
 const bigPictureCommentsCount = bigPicture.querySelector('.social__comment-total-count');
 const bigPictureClose = bigPicture.querySelector('.big-picture__cancel');
 
