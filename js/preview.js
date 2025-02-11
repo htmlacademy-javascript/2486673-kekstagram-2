@@ -1,66 +1,30 @@
 import {isEscapeKey} from './util.js';
+import {preview, createPreview} from './gallery.js';
 
-
-const container = document.querySelector('.pictures');
-const bigPicture = document.querySelector('.big-picture');
-const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
-const bigPictureLikesCount = bigPicture.querySelector('.likes-count');
-// const bigPictureShownComments = bigPicture.querySelector('.social__comment-shown-count');
-const bigPictureCommentsCount = bigPicture.querySelector('.social__comment-total-count');
-const bigPictureClose = bigPicture.querySelector('.big-picture__cancel');
+const previewCloseButton = document.querySelector('.big-picture__cancel');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeBigPicture();
+    closePreview();
   }
 };
 
-const createBigPicture = (pictureData) => {
-  bigPictureImg.src = pictureData.url;
-  bigPictureLikesCount.textContent = pictureData.likes;
-  // bigPictureShownComments.textContent = pictureData.comments;
-  bigPictureCommentsCount.textContent = pictureData.commentsCount;
-};
-
-function openBigPicture (pictureData) {
-  bigPicture.classList.remove('hidden');
-  createBigPicture(pictureData);
+const openPreview = (pictureData) => {
+  preview.classList.remove('hidden');
+  createPreview(pictureData);
   document.addEventListener('keydown', onDocumentKeydown);
-}
+};
 
-function closeBigPicture () {
-  bigPicture.classList.add('hidden');
+const closePreview = () => {
+  preview.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
-}
+};
 
 
-container.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  const picture = evt.target.closest('.picture');
-  if (!picture) {
-    return;
-  }
-  const pictureImgSrc = picture.querySelector('img').src;
-  const pictureLikesCount = picture.querySelector('.picture__likes').textContent;
-  // const pictureShownComments = picture.querySelector('.social__comment-shown-count').textContent;
-  const pictureCommentsCount = picture.querySelector('.picture__comments').length;
+previewCloseButton.addEventListener('click', closePreview);
 
-  const pictureData = {
-    url: pictureImgSrc,
-    likes: pictureLikesCount,
-    // comments: pictureShownComments,
-    commentsCount: pictureCommentsCount,
-  };
-
-  openBigPicture(pictureData);
-
-}
-);
-
-bigPictureClose.addEventListener('click', closeBigPicture);
-
-
+export {openPreview};
 // Реализовать сценарий просмотра фотографий в полноразмерном режиме. В таком режиме пользователь получает несколько дополнительных возможностей: детально рассмотреть изображение, поставить «лайк», почитать комментарии, оставленные другими пользователями.
 
 
