@@ -13,6 +13,8 @@ const getId = () => {
 const getCommentId = getId();
 const getPhotoId = getId();
 
-export { getRandomInteger, getCommentId, getPhotoId };
+// Проверка нажатой клавиши
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
+export { getRandomInteger, getCommentId, getPhotoId, isEscapeKey };
 

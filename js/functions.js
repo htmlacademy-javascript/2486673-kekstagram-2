@@ -46,4 +46,4 @@ const isInWorkingTime = function (workStart, workEnd, meetingStart, meetingTime)
 
   return workStartInMinute < meetingStartInMinute && meetingEnd <= workEndInMinute;
 };
-isInWorkingTime();
+isInWorkingTime('1:1', '1:1', '1:1', 90);
