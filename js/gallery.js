@@ -1,4 +1,4 @@
-import {openPreview} from './preview.js';
+import { openPreview } from './preview.js';
 
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');

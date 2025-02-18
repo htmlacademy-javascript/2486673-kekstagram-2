@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
-// import { getPictureDat } from './gallery.js';
+
+const COMMENTS_NUMBER = 5;
 
 const preview = document.querySelector('.big-picture');
 const previewImg = preview.querySelector('.big-picture__img img');
@@ -11,8 +12,6 @@ const previewDescription = preview.querySelector('.social__caption');
 
 const previewCommentsButton = preview.querySelector('.comments-loader');
 const previewCloseButton = document.querySelector('.big-picture__cancel');
-// const previewCommentsBlock = preview.querySelector('.social__comment-count');
-
 
 // создает блок с комментариями для превью
 
@@ -39,29 +38,36 @@ const addComment = (comments) => {
   });
 };
 
-// логика списка комментариев к превью
+// скрывает кнопку превью "загрузить еще" если комментариев больше нет
 
-const COMMENTS_NUMBER = 5; //вынести в конст
+const checkButtonClass = (commentsShown, comments) => {
+  previewCommentsButton.classList.toggle('hidden',(commentsShown.value >= comments.length));
+};
+
+// добавляет заданное число комментариев в список
+
+const addMoreComment = (comments, commentsShown) => {
+
+  const nextComments = comments.slice(commentsShown.value, commentsShown.value + COMMENTS_NUMBER);
+  addComment(nextComments);
+  commentsShown.value += nextComments.length;
+
+  checkButtonClass(commentsShown, comments);
+  previewShownComments.textContent = commentsShown.value; //полагаю что эта строка должна быть в блоке создания превью
+};
+
+// создает список комментариев к превью
 
 const createCommentsList = (comments) => {
-  let commentsShownNumber = 0;
+  const commentsShown = {value : 0};
 
-  const loadMoreComments = () => {
-
-    const nextComments = comments.slice(commentsShownNumber, commentsShownNumber + COMMENTS_NUMBER);
-    addComment(nextComments);
-    commentsShownNumber += nextComments.length;
-
-    if (commentsShownNumber >= comments.length) {
-      previewCommentsButton.classList.add('hidden');
-    } else {
-      previewCommentsButton.classList.remove('hidden');
-    }
-
+  const onMoreCommentsClick = () => {
+    addMoreComment(comments, commentsShown);
   };
-  previewCommentsButton.addEventListener('click', loadMoreComments); //накапливаются комменты если открыть несколько
 
-  loadMoreComments();
+  previewCommentsButton.addEventListener('click', onMoreCommentsClick); //накапливаются комменты если открыть несколько миниатюр подряд
+
+  onMoreCommentsClick();
 };
 
 // создает превью по клику на миниатюру
@@ -69,14 +75,12 @@ const createCommentsList = (comments) => {
 const createPreview = ({url, likes, comments, description}) => {
   previewImg.src = url;
   previewLikesCount.textContent = likes;
-  previewShownComments.textContent = comments.length;
   previewCommentsCount.textContent = comments.length;
   previewDescription.textContent = description;
 
   previewCommentsList.innerHTML = '';
   createCommentsList(comments);
 };
-
 
 const openPreview = (pictureData) => {
   preview.classList.remove('hidden');
