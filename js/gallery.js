@@ -1,18 +1,9 @@
-import { openPreview} from './preview';
+import {openPreview} from './preview.js';
 
 const template = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
-const preview = document.querySelector('.big-picture');
-const previewImg = preview.querySelector('.big-picture__img img');
-const previewLikesCount = preview.querySelector('.likes-count');
-const previewShownComments = preview.querySelector('.social__comment-shown-count');
-const previewCommentsCount = preview.querySelector('.social__comment-total-count');
-const previewCommentsList = preview.querySelector('.social__comments');
-const previewDescription = preview.querySelector('.social__caption');
-
-const previewCommentsButton = preview.querySelector('.comments-loader');
-
+// создает миниатюру
 
 const createThumbnail = ({url, description, likes, comments, id}) => {
   const thumbnail = template.cloneNode(true);
@@ -25,85 +16,23 @@ const createThumbnail = ({url, description, likes, comments, id}) => {
   thumbnail.querySelector('.picture__comments').textContent = comments.length ?? 0;
   thumbnail.dataset.id = id;
 
-  container.append(thumbnail);
+  return thumbnail;
 };
 
-// создает миниатюры
+// создает блок миниатюр
 
-const createThumbnails = (photo) => {
-  photo.forEach(createThumbnail);
-};
-
-// создает блок с комментариями для превью
-
-const getPreviewComments = (commentData) => {
-  const previewComment = document.createElement('li');
-  previewComment.classList.add('social__comment');
-
-  previewComment.innerHTML = `
-  <img
-    class="social__picture"
-    src="${commentData.avatar}"
-    alt="${commentData.name}"
-    width="35" height="35">
-  <p class="social__text">${commentData.message}</p>`;
-
-  return previewComment;
-};
-
-// добавляет комментарии к превью
-
-const addComment = (comments) => {
-  comments.forEach((comment) => {
-    previewCommentsList.append(getPreviewComments(comment));
+const renderThumbnails = (photos) => {
+  photos.forEach((photo) => {
+    container.append(createThumbnail(photo));
   });
-};
-
-// логика списка комментариев к превью
-
-const commentsNumber = 5; //вынести в конст
-
-const createCommentsList = (comments) => {
-  let commentsShownNumber = 0;
-
-  const loadMoreComments = () => {
-
-    const nextComments = comments.slice(commentsShownNumber, commentsShownNumber + commentsNumber);
-    addComment(nextComments);
-    commentsShownNumber += nextComments.length;
-
-    if (commentsShownNumber >= comments.length) {
-      previewCommentsButton.classList.add('hidden');
-    } else {
-      previewCommentsButton.classList.remove('hidden');
-    }
-
-  };
-  previewCommentsButton.addEventListener('click', loadMoreComments); //накапливаются комменты если открыть несколько
-
-  loadMoreComments();
-};
-
-// создает превью по клику на миниатюру
-
-const createPreview = ({url, likes, comments, description}) => {
-  previewImg.src = url;
-  previewLikesCount.textContent = likes;
-  previewShownComments.textContent = comments.length;
-  previewCommentsCount.textContent = comments.length;
-  previewDescription.textContent = description;
-
-  previewCommentsList.innerHTML = '';
-  createCommentsList(comments);
 };
 
 // находит в массиве данные нажатой миниатюры
 
 const getPictureData = (picture, photos) => {
   const pictureId = Number(picture.dataset.id);
-  const pictureData = photos.find((photo) => photo.id === pictureId);
 
-  return pictureData;
+  return photos.find((photo) => photo.id === pictureId);
 };
 
 // передает данные нажатой миниатюры
@@ -117,7 +46,8 @@ const onThumbnailClick = (photo) => {
 
     evt.preventDefault();
 
-    getPictureData(picture, photo);
+    const pictureData = getPictureData(picture, photo);
+    openPreview(pictureData);
   });
 
 };
@@ -126,8 +56,8 @@ const onThumbnailClick = (photo) => {
 
 const getPhotosData = (photo) => {
 
-  createThumbnails(photo);
+  renderThumbnails(photo);
   onThumbnailClick(photo);
 };
 
-export { getPhotosData, createPreview, preview, };
+export { getPhotosData };
