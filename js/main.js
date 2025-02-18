@@ -1,4 +1,4 @@
 import { getPhotos } from './photo-description.js';
-import { createThumbnails } from './gallery.js';
+import { getPhotosData } from './gallery.js';
 
-createThumbnails(getPhotos());
+getPhotosData(getPhotos());

@@ -13,9 +13,6 @@ const previewDescription = preview.querySelector('.social__caption');
 
 const previewCommentsButton = preview.querySelector('.comments-loader');
 
-let photosData = [];
-
-// создает миниатюры из шаблона
 
 const createThumbnail = ({url, description, likes, comments, id}) => {
   const thumbnail = template.cloneNode(true);
@@ -31,8 +28,9 @@ const createThumbnail = ({url, description, likes, comments, id}) => {
   container.append(thumbnail);
 };
 
+// создает миниатюры
+
 const createThumbnails = (photo) => {
-  photosData = photo;
   photo.forEach(createThumbnail);
 };
 
@@ -53,11 +51,15 @@ const getPreviewComments = (commentData) => {
   return previewComment;
 };
 
+// добавляет комментарии к превью
+
 const addComment = (comments) => {
   comments.forEach((comment) => {
     previewCommentsList.append(getPreviewComments(comment));
   });
 };
+
+// логика списка комментариев к превью
 
 const commentsNumber = 5; //вынести в конст
 
@@ -66,24 +68,21 @@ const createCommentsList = (comments) => {
 
   const loadMoreComments = () => {
 
-    if (comments.length <= commentsNumber){
-      comments = comments.slice(0, comments.length);
-      previewCommentsButton.classList.add('hidden');
-    }
-
     const nextComments = comments.slice(commentsShownNumber, commentsShownNumber + commentsNumber);
     addComment(nextComments);
     commentsShownNumber += nextComments.length;
+
+    if (commentsShownNumber >= comments.length) {
+      previewCommentsButton.classList.add('hidden');
+    } else {
+      previewCommentsButton.classList.remove('hidden');
+    }
+
   };
+  previewCommentsButton.addEventListener('click', loadMoreComments); //накапливаются комменты если открыть несколько
+
   loadMoreComments();
-
-  previewCommentsButton.addEventListener('click', loadMoreComments);
-
-  // if (comments.length <= commentsShownNumber){
-  //   previewCommentsButton.classList.add('hidden');
-  // }
 };
-
 
 // создает превью по клику на миниатюру
 
@@ -98,24 +97,37 @@ const createPreview = ({url, likes, comments, description}) => {
   createCommentsList(comments);
 };
 
+// находит в массиве данные нажатой миниатюры
 
-const getPictureData = (clickData) => {
-  const pictureId = Number(clickData.dataset.id);
-  const pictureData = photosData.find((photo) => photo.id === pictureId);
+const getPictureData = (picture, photos) => {
+  const pictureId = Number(picture.dataset.id);
+  const pictureData = photos.find((photo) => photo.id === pictureId);
 
-  openPreview(pictureData);
+  return pictureData;
 };
 
-container.addEventListener('click', (evt) => {
-  const picture = evt.target.closest('.picture');
-  if (!picture) {
-    return;
-  }
+// передает данные нажатой миниатюры
 
-  evt.preventDefault();
+const onThumbnailClick = (photo) => {
+  container.addEventListener('click', (evt) => {
+    const picture = evt.target.closest('.picture');
+    if (!picture) {
+      return;
+    }
 
-  getPictureData(picture);
-});
+    evt.preventDefault();
 
+    getPictureData(picture, photo);
+  });
 
-export { createThumbnails, createPreview, preview };
+};
+
+// передает исходные данные
+
+const getPhotosData = (photo) => {
+
+  createThumbnails(photo);
+  onThumbnailClick(photo);
+};
+
+export { getPhotosData, createPreview, preview, };
