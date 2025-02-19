@@ -1,6 +1,6 @@
 import { isEscapeKey } from './util.js';
 
-const COMMENTS_NUMBER = 5;
+const COMMENTS_NUMBER = 5; //убрать в data?
 
 const preview = document.querySelector('.big-picture');
 const previewImg = preview.querySelector('.big-picture__img img');
@@ -79,8 +79,11 @@ const createPreview = ({url, likes, comments, description}) => {
   previewDescription.textContent = description;
 
   previewCommentsList.innerHTML = '';
+
   createCommentsList(comments);
 };
+
+// Логика открытия превью
 
 const openPreview = (pictureData) => {
   preview.classList.remove('hidden');
@@ -90,11 +93,15 @@ const openPreview = (pictureData) => {
   document.body.classList.add('modal-open');
 };
 
+// Логика закрытия превью
+
 const closePreview = () => {
   preview.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.classList.remove('modal-open');
 };
+
+// функция закрытия превью по нажатию escape
 
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt)) {
@@ -102,6 +109,8 @@ function onDocumentKeydown(evt) {
     closePreview();
   }
 }
+
+// обработчик клика на кнопку закрытия превью
 
 previewCloseButton.addEventListener('click', closePreview);
 
