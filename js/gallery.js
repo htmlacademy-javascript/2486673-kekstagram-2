@@ -8,10 +8,10 @@ const container = document.querySelector('.pictures');
 const createThumbnail = ({url, description, likes, comments, id}) => {
   const thumbnail = template.cloneNode(true);
 
-  const pictureImage = thumbnail.querySelector('.picture__img');
+  const thumbnailImage = thumbnail.querySelector('.picture__img');
 
-  pictureImage.src = url;
-  pictureImage.alt = description;
+  thumbnailImage.src = url;
+  thumbnailImage.alt = description;
   thumbnail.querySelector('.picture__likes').textContent = likes;
   thumbnail.querySelector('.picture__comments').textContent = comments.length ?? 0;
   thumbnail.dataset.id = id;
@@ -21,43 +21,43 @@ const createThumbnail = ({url, description, likes, comments, id}) => {
 
 // создает блок миниатюр
 
-const renderThumbnails = (photos) => {
-  photos.forEach((photo) => {
+const renderThumbnails = (photosArray) => {
+  photosArray.forEach((photo) => {
     container.append(createThumbnail(photo));
   });
 };
 
 // находит в массиве данные нажатой миниатюры
 
-const getPictureData = (picture, photos) => {
-  const pictureId = Number(picture.dataset.id);
+const findPhotoById = (selectedThumbnail, photosArray) => {
+  const thumbnailId = Number(selectedThumbnail.dataset.id);
 
-  return photos.find((photo) => photo.id === pictureId);
+  return photosArray.find((photo) => photo.id === thumbnailId);
 };
 
 // передает данные нажатой миниатюры
 
-const onThumbnailClick = (photo) => {
+const getSelectedThumbnailData = (photosArray) => {
   container.addEventListener('click', (evt) => {
-    const picture = evt.target.closest('.picture');
-    if (!picture) {
+    const selectedThumbnail = evt.target.closest('.picture');
+    if (!selectedThumbnail) {
       return;
     }
 
     evt.preventDefault();
 
-    const pictureData = getPictureData(picture, photo);
-    openPreview(pictureData);
+    const selectedThumbnailData = findPhotoById(selectedThumbnail, photosArray);
+    openPreview(selectedThumbnailData);
   });
 
 };
 
 // передает исходные данные
 
-const getPhotosData = (photo) => {
+const initGallery = (photosArray) => {
 
-  renderThumbnails(photo);
-  onThumbnailClick(photo);
+  renderThumbnails(photosArray);
+  getSelectedThumbnailData(photosArray);
 };
 
-export { getPhotosData };
+export { initGallery };
