@@ -56,13 +56,19 @@ const createCommentsList = (comments) => {
   const commentsShown = {value : 0};
 
   const onPreviewMoreButtonClick = () => {
+
     addMoreComment(comments, commentsShown);
+  };
+
+  const removeEventListener = () => {
+    previewMoreButton.removeEventListener('click', onPreviewMoreButtonClick); //как передать обработчик в функцию закрытия окна превью?
   };
 
   previewMoreButton.addEventListener('click', onPreviewMoreButtonClick);
 
   onPreviewMoreButtonClick();
 
+  return removeEventListener;
 };
 
 
