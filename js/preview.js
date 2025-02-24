@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { createCommentsList } from './preview-comments.js';
+import { createCommentsList, clearComments } from './preview-comments.js';
 
 
 const preview = document.querySelector('.big-picture');
@@ -29,6 +29,7 @@ const openPreview = (pictureData) => {
   document.addEventListener('keydown', onDocumentKeydown);
 
   document.body.classList.add('modal-open');
+
 };
 
 // Логика закрытия превью
@@ -37,6 +38,7 @@ const closePreview = () => {
   preview.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.classList.remove('modal-open');
+  clearComments();
 };
 
 // функция закрытия превью по нажатию escape

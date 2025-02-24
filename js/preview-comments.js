@@ -4,6 +4,9 @@ const previewShownComments = document.querySelector('.social__comment-shown-coun
 const previewMoreButton = document.querySelector('.comments-loader');
 const previewCommentsList = document.querySelector('.social__comments');
 
+let comments = [];
+let commentsShown = 0;
+
 // создает элемент комментария
 
 const getPreviewComments = (commentData) => {
@@ -23,53 +26,45 @@ const getPreviewComments = (commentData) => {
 
 // добавляет комментарии в список
 
-const addComment = (comments) => {
-  comments.forEach((comment) => {
+const addComment = (commentsBlock) => {
+  commentsBlock.forEach((comment) => {
     previewCommentsList.append(getPreviewComments(comment));
   });
 };
 
 // скрывает кнопку превью "загрузить еще" если комментариев больше нет
 
-const checkButtonClass = (commentsShown, comments) => {
-  previewMoreButton.classList.toggle('hidden',(commentsShown.value >= comments.length));
+const checkButtonClass = () => {
+  previewMoreButton.classList.toggle('hidden',(commentsShown >= comments.length));
 };
-
-// добавляет заданное число комментариев в список
-
-const addMoreComment = (comments, commentsShown) => {
-
-  const nextComments = comments.slice(commentsShown.value, commentsShown.value + COMMENTS_NUMBER);
-  addComment(nextComments);
-  commentsShown.value += nextComments.length;
-
-  checkButtonClass(commentsShown, comments);
-  previewShownComments.textContent = commentsShown.value;
-};
-
 
 // создает список комментариев для превью
 
-const createCommentsList = (comments) => {
-  previewCommentsList.innerHTML = '';
+const renderNextComment = () => {
 
-  const commentsShown = {value : 0};
+  const nextComments = comments.slice(commentsShown, commentsShown + COMMENTS_NUMBER);
+  addComment(nextComments);
+  commentsShown += nextComments.length;
 
-  const onPreviewMoreButtonClick = () => {
-
-    addMoreComment(comments, commentsShown);
-  };
-
-  const removeEventListener = () => {
-    previewMoreButton.removeEventListener('click', onPreviewMoreButtonClick); //как передать обработчик в функцию закрытия окна превью?
-  };
-
-  previewMoreButton.addEventListener('click', onPreviewMoreButtonClick);
-
-  onPreviewMoreButtonClick();
-
-  return removeEventListener;
+  checkButtonClass();
+  previewShownComments.textContent = commentsShown;
 };
 
+// очищает комментарии и удаляет обработчик
 
-export { createCommentsList };
+const clearComments = () => {
+  commentsShown = 0;
+  previewCommentsList.innerHTML = '';
+  previewMoreButton.removeEventListener('click', renderNextComment);
+};
+
+// добавляет комментарии по клику
+
+const createCommentsList = (newComments) => {
+  clearComments();
+  comments = newComments;
+  previewMoreButton.addEventListener('click', renderNextComment);
+  renderNextComment();
+};
+
+export { createCommentsList, clearComments };
