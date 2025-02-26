@@ -1,3 +1,4 @@
+const ESCAPE = 'Escape';
 
 const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(min, max));
@@ -13,6 +14,9 @@ const getId = () => {
 const getCommentId = getId();
 const getPhotoId = getId();
 
-export { getRandomInteger, getCommentId, getPhotoId };
+// Проверка нажатой клавиши
 
+const isEscapeKey = (evt) => evt.key === ESCAPE;
+
+export { getRandomInteger, getCommentId, getPhotoId, isEscapeKey };
 
