@@ -9,7 +9,7 @@ let commentsShown = 0;
 
 // создает элемент комментария
 
-const getPreviewComments = (commentData) => {
+const getPreviewComment = (commentData) => {
   const previewComment = document.createElement('li');
   previewComment.classList.add('social__comment');
 
@@ -28,19 +28,19 @@ const getPreviewComments = (commentData) => {
 
 const addComment = (commentsBlock) => {
   commentsBlock.forEach((comment) => {
-    previewCommentsList.append(getPreviewComments(comment));
+    previewCommentsList.append(getPreviewComment(comment));
   });
 };
 
 // скрывает кнопку превью "загрузить еще" если комментариев больше нет
 
 const checkButtonClass = () => {
-  previewMoreButton.classList.toggle('hidden',(commentsShown >= comments.length));
+  previewMoreButton.classList.toggle('hidden', commentsShown >= comments.length);
 };
 
 // создает список комментариев для превью
 
-const renderNextComment = () => {
+const onPreviewMoreButtonClick = () => {
 
   const nextComments = comments.slice(commentsShown, commentsShown + COMMENTS_NUMBER);
   addComment(nextComments);
@@ -55,7 +55,7 @@ const renderNextComment = () => {
 const clearComments = () => {
   commentsShown = 0;
   previewCommentsList.innerHTML = '';
-  previewMoreButton.removeEventListener('click', renderNextComment);
+  previewMoreButton.removeEventListener('click', onPreviewMoreButtonClick);
 };
 
 // добавляет комментарии по клику
@@ -63,8 +63,8 @@ const clearComments = () => {
 const createCommentsList = (newComments) => {
   clearComments();
   comments = newComments;
-  previewMoreButton.addEventListener('click', renderNextComment);
-  renderNextComment();
+  previewMoreButton.addEventListener('click', onPreviewMoreButtonClick);
+  onPreviewMoreButtonClick();
 };
 
 export { createCommentsList, clearComments };
