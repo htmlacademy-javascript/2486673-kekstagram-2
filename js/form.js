@@ -25,6 +25,7 @@ input.addEventListener('change', () => {
   openForm();
 });
 
+// как может сработать evt.stopPropagation() если обработчик события keydown на document? получается через input не проходят стадии всплыти\погружения этого события?
 
 function onFormKeydown(evt) {
   // if(commentInput.onfocus) {
@@ -56,7 +57,7 @@ const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
 let error = '';
 
-// вынес функцию отдельно. кода стало больше. Оставлять?
+// вынес функцию отдельно. кода стало больше. Оставлять или выносить остальные?
 
 const checkDuplicate = (uniqueHashtags, hashtag) => {
   if (uniqueHashtags.has(hashtag)) {
