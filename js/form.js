@@ -9,11 +9,13 @@ const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 
 
-const openForm = () => {
+const onUploadInputChange = () => {
   uploadForm.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onFormKeydown);
 };
+
+// closeForm это же не просто функция обработчик. разве корректно ее назвать onCloseButtonClick например? ее же вызывает и нажатие escape
 
 const closeForm = () => {
   uploadForm.classList.add('hidden');
@@ -22,31 +24,26 @@ const closeForm = () => {
 };
 
 input.addEventListener('change', () => {
-  openForm();
+  onUploadInputChange();
 });
 
-// как может сработать evt.stopPropagation() если обработчик события keydown на document? получается через input не проходят стадии всплыти\погружения этого события?
 
 function onFormKeydown(evt) {
-  // if(commentInput.onfocus) {
-  //   evt.stopPropagation();
-  // }
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && document.activeElement !== commentInput) {
     evt.preventDefault();
     closeForm();
   }
 }
-
 
 formCloseButton.addEventListener('click', closeForm);
 
 // валидация формы. будет вынесена в отдельный модуль
 
 const ERROR_MESSAGES = {
-  tooMany: 'Нельзя использовать больше 5 хэштегов',
-  invalidFormat: 'Хэштег должен начинаться с # и содержать только буквы и цифры',
-  duplicate: 'Хэштеги не должны повторяться',
-  tooLong: 'длина комментария не должна быть больше 140 символов',
+  TOO_MANY: 'Нельзя использовать больше 5 хэштегов',
+  INVALID_FORMAT: 'Хэштег должен начинаться с # и содержать только буквы и цифры',
+  DUPLICATE: 'Хэштеги не должны повторяться',
+  TOO_LONG: 'длина комментария не должна быть больше 140 символов',
 };
 
 const HASHTAG_AMOUNT = 5;
@@ -57,11 +54,26 @@ const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
 let error = '';
 
-// вынес функцию отдельно. кода стало больше. Оставлять или выносить остальные?
+const checkAmount = (hashtagArray) => {
+  if (hashtagArray.length > HASHTAG_AMOUNT) {
+    error = ERROR_MESSAGES.TOO_MANY;
+    return false;
+  }
+  return true;
+};
+
 
 const checkDuplicate = (uniqueHashtags, hashtag) => {
   if (uniqueHashtags.has(hashtag)) {
-    error = ERROR_MESSAGES.duplicate;
+    error = ERROR_MESSAGES.DUPLICATE;
+    return false;
+  }
+  return true;
+};
+
+const checkFormat = (hashtag) => {
+  if (!hashtagRegex.test(hashtag)) {
+    error = ERROR_MESSAGES.INVALID_FORMAT;
     return false;
   }
   return true;
@@ -71,44 +83,24 @@ const checkDuplicate = (uniqueHashtags, hashtag) => {
 
 const hashtagValidate = (value) => {
 
-  const inputValue = value.trim().toLowerCase();
-  const hashtagArray = inputValue.split(/\s+/);
+  error = '';
 
+  const hashtagArray = value.trim().toLowerCase().split(/\s+/);
   const uniqueHashtags = new Set();
-
-  // проверка пустого поля
 
   if (!value) {
     return true;
   }
 
-  // проверка количества хештегов
-
-  if (hashtagArray.length > HASHTAG_AMOUNT) {
-    error = ERROR_MESSAGES.tooMany;
+  if (!checkAmount(hashtagArray)) {
     return false;
   }
 
   for (const hashtag of hashtagArray) {
 
-    // проверка допустимых символов
-
-    if (!hashtagRegex.test(hashtag)) {
-      error = ERROR_MESSAGES.invalidFormat;
+    if (!checkFormat(hashtag) || !checkDuplicate(uniqueHashtags, hashtag)) {
       return false;
     }
-
-    // проверка повторов
-
-    if (!checkDuplicate(uniqueHashtags, hashtag)) {
-      return false;
-    }
-
-    // if (uniqueHashtags.has(hashtag)) {
-    //   error = ERROR_MESSAGES.duplicate;
-    //   return false;
-    // }
-
     uniqueHashtags.add(hashtag);
   }
   return true;
@@ -116,10 +108,21 @@ const hashtagValidate = (value) => {
 
 // валидатор комментариев
 
+const checkCommentLength = (value) => {
+
+  if (value.trim().length > COMMENT_LENGTH) {
+
+    error = ERROR_MESSAGES.TOO_LONG;
+    return false;
+  }
+  return true;
+};
+
 const commentValidate = (value) => {
-  const commentValue = value.trim();
-  if (commentValue.length > COMMENT_LENGTH) {
-    error = ERROR_MESSAGES.tooLong;
+
+  error = '';
+
+  if (!checkCommentLength(value)) {
     return false;
   }
   return true;
