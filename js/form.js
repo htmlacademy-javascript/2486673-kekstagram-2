@@ -25,12 +25,17 @@ input.addEventListener('change', () => {
   openForm();
 });
 
+
 function onFormKeydown(evt) {
+  // if(commentInput.onfocus) {
+  //   evt.stopPropagation();
+  // }
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeForm();
   }
 }
+
 
 formCloseButton.addEventListener('click', closeForm);
 
