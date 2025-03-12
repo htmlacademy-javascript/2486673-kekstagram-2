@@ -8,7 +8,6 @@ const formCloseButton = form.querySelector('.img-upload__cancel');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 
-let error = '';
 
 const openForm = () => {
   uploadForm.classList.remove('hidden');
@@ -19,8 +18,7 @@ const openForm = () => {
 const closeForm = () => {
   uploadForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  input.value = '';
-  hashtagInput.value = '';
+  form.reset();
 };
 
 input.addEventListener('change', () => {
@@ -50,6 +48,8 @@ const HASHTAG_AMOUNT = 5;
 const COMMENT_LENGTH = 140;
 
 const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
+
+let error = '';
 
 // вынес функцию отдельно. кода стало больше. Оставлять?
 
@@ -108,7 +108,6 @@ const hashtagValidate = (value) => {
   return true;
 };
 
-
 // валидатор комментариев
 
 const commentValidate = (value) => {
@@ -138,8 +137,9 @@ hashtagInput.addEventListener('input', () => {
 });
 
 form.addEventListener('submit', (evt) => {
-  pristine.validate();
-  evt.preventDefault();
+  if (!pristine.validate()) {
+    evt.preventDefault();
+  }
 });
 
 pristine.addValidator(hashtagInput, hashtagValidate, () => error);
