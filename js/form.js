@@ -6,6 +6,7 @@ const uploadForm = form.querySelector('.img-upload__overlay');
 const formCloseButton = form.querySelector('.img-upload__cancel');
 const commentInput = form.querySelector('.text__description');
 
+uploadForm.classList.remove('hidden');//временно
 
 const onUploadInputChange = () => {
   uploadForm.classList.remove('hidden');
