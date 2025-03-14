@@ -1,8 +1,7 @@
-
 const zoomOut = document.querySelector('.scale__control--smaller');
 const zoomIn = document.querySelector('.scale__control--bigger');
 const zoomValue = document.querySelector('.scale__control--value');
-const img = document.querySelector('.img-upload__preview');
+const img = document.querySelector('.img-upload__preview img');
 const ZOOM = {
   STEP: 25,
   MIN: 25,
@@ -26,6 +25,7 @@ const onZoomButtonsClick = (event) => {
   changeZoom(currentValue);
 };
 
-
 zoomIn.addEventListener('click', onZoomButtonsClick);
 zoomOut.addEventListener('click', onZoomButtonsClick);
+
+export { img };
