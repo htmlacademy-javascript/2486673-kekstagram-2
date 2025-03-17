@@ -1,12 +1,14 @@
-const zoomOut = document.querySelector('.scale__control--smaller');
-const zoomIn = document.querySelector('.scale__control--bigger');
-const zoomValue = document.querySelector('.scale__control--value');
-const img = document.querySelector('.img-upload__preview img');
-const ZOOM = {
+const zoom = {
   STEP: 25,
   MIN: 25,
   MAX: 100,
 };
+
+const zoomOut = document.querySelector('.scale__control--smaller');
+const zoomIn = document.querySelector('.scale__control--bigger');
+const zoomValue = document.querySelector('.scale__control--value');
+const img = document.querySelector('.img-upload__preview img');
+
 
 const changeZoom = (newValue) => {
   zoomValue.value = `${newValue}%`;
@@ -16,10 +18,10 @@ const changeZoom = (newValue) => {
 const onZoomButtonsClick = (event) => {
   let currentValue = parseInt(zoomValue.value, 10);
 
-  if (event.target === zoomIn && currentValue < ZOOM.MAX) {
-    currentValue += ZOOM.STEP;
-  } else if (event.target === zoomOut && currentValue > ZOOM.MIN) {
-    currentValue -= ZOOM.STEP;
+  if (event.target === zoomIn && currentValue < zoom.MAX) {
+    currentValue += zoom.STEP;
+  } else if (event.target === zoomOut && currentValue > zoom.MIN) {
+    currentValue -= zoom.STEP;
   }
 
   changeZoom(currentValue);
@@ -28,4 +30,3 @@ const onZoomButtonsClick = (event) => {
 zoomIn.addEventListener('click', onZoomButtonsClick);
 zoomOut.addEventListener('click', onZoomButtonsClick);
 
-export { img };

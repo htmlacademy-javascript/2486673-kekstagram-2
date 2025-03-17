@@ -27,9 +27,7 @@ const openPreview = (pictureData) => {
   preview.classList.remove('hidden');
   createPreview(pictureData);
   document.addEventListener('keydown', onDocumentKeydown);
-
   document.body.classList.add('modal-open');
-
 };
 
 // Логика закрытия превью
@@ -39,6 +37,10 @@ const closePreview = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.classList.remove('modal-open');
   clearComments();
+};
+
+const onPreviewCloseButtonClick = () => {
+  closePreview();
 };
 
 // функция закрытия превью по нажатию escape
@@ -52,7 +54,7 @@ function onDocumentKeydown(evt) {
 
 // обработчик клика на кнопку закрытия превью
 
-previewCloseButton.addEventListener('click', closePreview);
+previewCloseButton.addEventListener('click', onPreviewCloseButtonClick);
 
 
 export { openPreview };

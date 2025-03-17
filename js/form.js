@@ -8,17 +8,23 @@ const commentInput = form.querySelector('.text__description');
 
 uploadForm.classList.remove('hidden');//временно
 
-const onUploadInputChange = () => {
+const openForm = () => {
   uploadForm.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onFormKeydown);
 };
 
-// closeForm это же не просто функция обработчик. разве корректно ее назвать onCloseButtonClick например? ее же вызывает и нажатие escape
-
 const closeForm = () => {
   uploadForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
+};
+
+const onUploadInputChange = () => {
+  openForm();
+};
+
+const onFormCloseButtonClick = () => {
+  closeForm();
   form.reset();
 };
 
@@ -31,6 +37,6 @@ function onFormKeydown(evt) {
 
 input.addEventListener('change', onUploadInputChange);
 
-formCloseButton.addEventListener('click', closeForm);
+formCloseButton.addEventListener('click', onFormCloseButtonClick);
 
 export { form, commentInput };
