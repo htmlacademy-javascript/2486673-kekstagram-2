@@ -1,17 +1,17 @@
 
 const DESCRIPTION_AMOUNT = 25;
 
-const LIKES = {
+const Likes = {
   MIN: 15,
   MAX: 200,
 };
 
-const AVATAR_NUMBER = {
+const AvatarNumber = {
   MIN: 1,
   MAX: 6,
 };
 
-const COMMENTS_NUMBER = {
+const CommentsNumber = {
   MIN: 1,
   MAX: 30,
 };
@@ -48,4 +48,4 @@ const DESCRIPTIONS = [
   'Остановись и почувствуй магию момента',
 ];
 
-export { AVATAR_NUMBER, COMMENTS_NUMBER, LIKES, NAMES, COMMENTS, DESCRIPTIONS, DESCRIPTION_AMOUNT };
+export { AvatarNumber, CommentsNumber, Likes, NAMES, COMMENTS, DESCRIPTIONS, DESCRIPTION_AMOUNT };
