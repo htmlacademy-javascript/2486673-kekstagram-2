@@ -24,7 +24,7 @@ const applyEffect = (value) => {
 
   if (effect) {
     img.style.filter = `${effect.filter}(${value}${effect.unit})`;
-  } else { //удаляет слайдер при вызове формы
+  } else { //удаляет слайдер при вызове формы.
     img.style.filter = 'none';
     sliderContainer.classList.add('hidden');
   }
