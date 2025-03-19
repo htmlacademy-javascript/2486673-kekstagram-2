@@ -14,7 +14,7 @@ const ErrorMessages = {
 const hashtagInput = form.querySelector('.text__hashtags');
 const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
-const getHashtagsArray = (value) => value.trim().toLowerCase().split(/\s+/);
+const getHashtagsArray = (value) => value.trim() ? value.trim().toLowerCase().split(/\s+/) : [];
 
 const hashtagQuantityValidate = (value) => {
   const hashtags = getHashtagsArray(value);
@@ -40,9 +40,7 @@ const hashtagFormatValidate = (value) => {
   return true;
 };
 
-
 // // валидатор комментариев
-
 
 const commentLengthValidate = (value) => {
   if (value.trim().length > COMMENT_LENGTH) {
