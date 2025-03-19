@@ -6,8 +6,6 @@ const uploadForm = form.querySelector('.img-upload__overlay');
 const formCloseButton = form.querySelector('.img-upload__cancel');
 const commentInput = form.querySelector('.text__description');
 
-uploadForm.classList.remove('hidden');//временно
-
 const openForm = () => {
   uploadForm.classList.remove('hidden');
   document.body.classList.add('modal-open');

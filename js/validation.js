@@ -1,6 +1,3 @@
-const form = document.querySelector('.img-upload__form');
-const commentInput = form.querySelector('.text__description');
-
 const HASHTAG_AMOUNT = 5;
 const COMMENT_LENGTH = 140;
 
@@ -11,43 +8,31 @@ const ErrorMessages = {
   TOO_LONG: 'Длина комментария не должна быть больше 140 символов',
 };
 
+const form = document.querySelector('.img-upload__form');
+const commentInput = form.querySelector('.text__description');
 const hashtagInput = form.querySelector('.text__hashtags');
 const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
-const getHashtagsArray = (value) => value.trim() ? value.trim().toLowerCase().split(/\s+/) : [];
+const getHashtagsArray = (value) => value.trim().toLowerCase().split(/\s+/).filter(Boolean);
 
 const hashtagQuantityValidate = (value) => {
   const hashtags = getHashtagsArray(value);
-  if (hashtags.length > HASHTAG_AMOUNT) {
-    return false;
-  }
-  return true;
+  return hashtags.length <= HASHTAG_AMOUNT;
 };
 
 const hashtagDuplicateValidate = (value) => {
   const hashtags = getHashtagsArray(value);
-  if (new Set(hashtags).size !== hashtags.length) {
-    return false;
-  }
-  return true;
+  return new Set(hashtags).size === hashtags.length;
 };
 
 const hashtagFormatValidate = (value) => {
   const hashtags = getHashtagsArray(value);
-  if (!hashtags.every((hashtag) => hashtagRegex.test(hashtag))) {
-    return false;
-  }
-  return true;
+  return hashtags.every((hashtag) => hashtagRegex.test(hashtag));
 };
 
 // // валидатор комментариев
 
-const commentLengthValidate = (value) => {
-  if (value.trim().length > COMMENT_LENGTH) {
-    return false;
-  }
-  return true;
-};
+const commentLengthValidate = (value) => value.trim().length <= COMMENT_LENGTH;
 
 // настройки валидатора
 
@@ -56,14 +41,6 @@ const pristine = new Pristine(form, {
   errorTextParent: 'img-upload__field-wrapper',
   errorTextTag: 'div',
   errorTextClass: 'img-upload__field-wrapper--error'
-});
-
-commentInput.addEventListener('input', () => {
-  pristine.validate(commentInput);
-});
-
-hashtagInput.addEventListener('input', () => {
-  pristine.validate(hashtagInput);
 });
 
 form.addEventListener('submit', (evt) => {
