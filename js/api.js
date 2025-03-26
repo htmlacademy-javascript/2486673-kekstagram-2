@@ -11,8 +11,8 @@ const Method = {
 };
 
 const ErrorText = {
-  GET: 'При загрузке данных с сервера произошла ошибка запроса',
-  POST: 'При отправке данных произошла ошибка запроса'
+  GET: 'При загрузке данных с сервера произошла ошибка',
+  POST: 'При отправке данных произошла ошибка'
 };
 
 
@@ -22,5 +22,7 @@ const loadData = (route, method = Method.GET, body = null) => fetch(`${BASE_URL}
 
 const getData = () => loadData(Route.GET);
 
+const sendData = (body) => loadData(Route.POST, Method.POST, body);
 
-export { getData };
+
+export { getData, sendData };
