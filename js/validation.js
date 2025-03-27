@@ -1,3 +1,5 @@
+import { sendFormData } from './form-send.js';
+
 const HASHTAG_AMOUNT = 5;
 const COMMENT_LENGTH = 140;
 
@@ -47,6 +49,7 @@ form.addEventListener('submit', (evt) => {
   if (!pristine.validate()) {
     evt.preventDefault();
   }
+  sendFormData(evt);
 });
 
 pristine.addValidator(hashtagInput, hashtagQuantityValidate, ErrorMessages.TOO_MANY);
@@ -56,3 +59,4 @@ pristine.addValidator(hashtagInput, hashtagFormatValidate, ErrorMessages.INVALID
 pristine.addValidator(hashtagInput, hashtagDuplicateValidate, ErrorMessages.DUPLICATE);
 
 pristine.addValidator(commentInput, commentLengthValidate, ErrorMessages.TOO_LONG);
+
