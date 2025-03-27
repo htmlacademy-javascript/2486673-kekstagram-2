@@ -30,47 +30,48 @@ const showErrorMessage = () => {
 
 //закрытие окна успешной отправки
 
-const closeSuccessWindow = () => {
-  const successElement = document.querySelector('.success');
+const closeMessage = (element) => {
 
-  successElement.remove();
+  element.remove();
   document.removeEventListener('keydown', onEscKeydown);
   document.removeEventListener('click', onOutsideClick);
 };
 
-const onCloseButtonclick = () => {
-  closeSuccessWindow();
+const onCloseButtonclick = (element) => {
+  closeMessage(element);
 };
 
 
-// открытие окна успешной отправки
+// открытие окна сообщения
 
-const showSuccessMessage = () => {
-  const successContainer = successTemplate.cloneNode(true);
-  body.append(successContainer);
+const showMessage = (type) => {
+  const template = type === 'success' ? successTemplate : requestErrorTemplate;
+  const messageContainer = template.cloneNode(true);
 
-  const closeButton = successContainer.querySelector('.success__button');
-  closeButton.addEventListener('click', onCloseButtonclick);
-  document.addEventListener('keydown', onEscKeydown);
-  document.addEventListener('click', onOutsideClick);
+  body.append(messageContainer);
+
+  const closeButton = messageContainer.querySelector(`.${type}__button`);
+  closeButton.addEventListener('click', () => onCloseButtonclick(messageContainer));
+  document.addEventListener('keydown', (evt) => onEscKeydown(evt, messageContainer));
+  document.addEventListener('click',(evt) => onOutsideClick(evt, messageContainer, type));
 };
 
-//обработчик закрытия окна успешной отправки по клику вне окна
+//обработчик закрытия окна сообщения по клику вне окна
 
-function onOutsideClick (evt) {
-  const successElement = document.querySelector('.success__inner');
-  if (successElement !== evt.target) {
-    closeSuccessWindow();
+function onOutsideClick (evt, messageContainer, type) {
+  const element = messageContainer.querySelector(`.${type}__inner`);
+  if (element !== evt.target) {
+    closeMessage(messageContainer);
   }
 }
 
 // обработчик нажатия Escape
 
-function onEscKeydown(evt) {
+function onEscKeydown(evt, messageContainer) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeSuccessWindow();
+    closeMessage(messageContainer);
   }
 }
 
-export { showErrorMessage, showSuccessMessage, isEscapeKey };
+export { showMessage, showErrorMessage, isEscapeKey };

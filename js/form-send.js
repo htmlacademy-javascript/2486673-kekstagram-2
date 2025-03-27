@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import { showSuccessMessage } from './util.js';
+import { showMessage } from './util.js';
 
 const sendFormData = (evt) => {
   evt.preventDefault();
@@ -8,10 +8,10 @@ const sendFormData = (evt) => {
 
   sendData(formData)
     .then(() => {
-      showSuccessMessage();
+      showMessage('success');
     })
-    .catch((error) => {
-      showSuccessMessage(error);
+    .catch(() => {
+      showMessage('error');
     });
 };
 
