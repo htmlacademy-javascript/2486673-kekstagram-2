@@ -7,11 +7,11 @@ const errorTemplate = document.querySelector('#data-error').content.querySelecto
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const requestErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 
-// проверка нажатой клавиши
+//проверка нажатой клавиши
 
 const isEscapeKey = (evt) => evt.key === ESCAPE;
 
-// время отображения ошибки
+//время отображения ошибки
 
 const setErrorDisplayTime = (element) => {
   body.append(element);
@@ -28,50 +28,61 @@ const showErrorMessage = () => {
   setErrorDisplayTime(errorContainer);
 };
 
-//закрытие окна успешной отправки
+//закрытие окна сообщения
 
-const closeMessage = (element) => {
-
-  element.remove();
-  document.removeEventListener('keydown', onEscKeydown);
-  document.removeEventListener('click', onOutsideClick);
+const closeMessage = () => {
+  const messageContainer = document.querySelector('.error, .success');
+  messageContainer.remove();
+  body.removeEventListener('keydown', onEscKeydown);
+  body.removeEventListener('click', onOutsideClick);
 };
 
-const onCloseButtonclick = (element) => {
-  closeMessage(element);
-};
+//открытие сообщения
 
-
-// открытие окна сообщения
-
-const showMessage = (type) => {
-  const template = type === 'success' ? successTemplate : requestErrorTemplate;
+const showMessage = (template, type) => {
   const messageContainer = template.cloneNode(true);
-
   body.append(messageContainer);
 
   const closeButton = messageContainer.querySelector(`.${type}__button`);
-  closeButton.addEventListener('click', () => onCloseButtonclick(messageContainer));
-  document.addEventListener('keydown', (evt) => onEscKeydown(evt, messageContainer));
-  document.addEventListener('click',(evt) => onOutsideClick(evt, messageContainer, type));
+
+  closeButton.addEventListener('click', () => closeMessage(messageContainer));
+
+
+  body.addEventListener('keydown', onEscKeydown);
+  body.addEventListener('click', onOutsideClick);
 };
 
-//обработчик закрытия окна сообщения по клику вне окна
+//открытие окна успешной отправки
 
-function onOutsideClick (evt, messageContainer, type) {
-  const element = messageContainer.querySelector(`.${type}__inner`);
-  if (element !== evt.target) {
-    closeMessage(messageContainer);
+const showSuccessMessage = () => {
+  showMessage(successTemplate, 'success');
+};
+
+//открытие окна ошибки запроса
+
+const showRequestErrorMessage = () => {
+  showMessage(requestErrorTemplate, 'error');
+};
+
+//обработчик клика вне окна
+
+function onOutsideClick (evt) {
+  const messageContainer = document.querySelector('.error, .success');
+  const messageWindow = messageContainer.querySelector('.success__inner, .error__inner');
+  if (messageWindow !== evt.target) {
+    closeMessage();
   }
 }
 
-// обработчик нажатия Escape
+//обработчик нажатия Escape
 
-function onEscKeydown(evt, messageContainer) {
+function onEscKeydown (evt) {
   if (isEscapeKey(evt)) {
+    evt.stopPropagation();
     evt.preventDefault();
-    closeMessage(messageContainer);
+    closeMessage();
   }
 }
 
-export { showMessage, showErrorMessage, isEscapeKey };
+
+export { showErrorMessage, showSuccessMessage, showRequestErrorMessage, isEscapeKey };

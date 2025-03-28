@@ -46,11 +46,16 @@ const pristine = new Pristine(form, {
 });
 
 form.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
+  evt.preventDefault();
+
+  if (pristine.validate()) {
+    sendFormData(evt);
   }
-  sendFormData(evt);
 });
+
+const resetValidation = () => {
+  pristine.reset();
+};
 
 pristine.addValidator(hashtagInput, hashtagQuantityValidate, ErrorMessages.TOO_MANY);
 
@@ -60,3 +65,4 @@ pristine.addValidator(hashtagInput, hashtagDuplicateValidate, ErrorMessages.DUPL
 
 pristine.addValidator(commentInput, commentLengthValidate, ErrorMessages.TOO_LONG);
 
+export { resetValidation };
