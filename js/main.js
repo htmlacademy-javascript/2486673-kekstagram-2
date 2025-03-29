@@ -7,7 +7,6 @@ import './form.js';
 import './validation.js';
 import './image-zoom.js';
 import './image-effects.js';
-import './api.js';
 
 
 getData()

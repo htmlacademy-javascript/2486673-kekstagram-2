@@ -47,7 +47,6 @@ const showMessage = (template, type) => {
 
   closeButton.addEventListener('click', () => closeMessage(messageContainer));
 
-
   body.addEventListener('keydown', onEscKeydown);
   body.addEventListener('click', onOutsideClick);
 };
@@ -83,6 +82,5 @@ function onEscKeydown (evt) {
     closeMessage();
   }
 }
-
 
 export { showErrorMessage, showSuccessMessage, showRequestErrorMessage, isEscapeKey };
