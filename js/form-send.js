@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import { showRequestErrorMessage, showSuccessMessage } from './util.js';
+import { showRequestErrorMessage, showSuccessMessage } from './form-messages.js';
 import { closeForm } from './form.js';
 
 const SubmitButtonText = {

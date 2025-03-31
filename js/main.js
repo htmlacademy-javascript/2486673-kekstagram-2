@@ -1,4 +1,4 @@
-import { showErrorMessage } from './util.js';
+import { showErrorMessage } from './form-messages.js';
 import { getData } from './api.js';
 import { initGallery } from './gallery.js';
 
