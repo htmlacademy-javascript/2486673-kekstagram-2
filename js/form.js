@@ -1,4 +1,6 @@
 import { isEscapeKey } from './util.js';
+import { resetSlider } from './image-effects.js';
+import { resetValidation } from './validation.js';
 
 const form = document.querySelector('.img-upload__form');
 const input = form.querySelector('.img-upload__input');
@@ -14,6 +16,9 @@ const openForm = () => {
 
 const closeForm = () => {
   uploadForm.classList.add('hidden');
+  resetValidation();
+  resetSlider();
+  form.reset();
   document.body.classList.remove('modal-open');
 };
 
@@ -23,7 +28,6 @@ const onUploadInputChange = () => {
 
 const onFormCloseButtonClick = () => {
   closeForm();
-  form.reset();
 };
 
 function onFormKeydown(evt) {
@@ -37,4 +41,4 @@ input.addEventListener('change', onUploadInputChange);
 
 formCloseButton.addEventListener('click', onFormCloseButtonClick);
 
-export { form, commentInput };
+export { form, commentInput, closeForm };

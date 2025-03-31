@@ -19,6 +19,13 @@ noUiSlider.create(slider, {
   start: 100,
 });
 
+
+const resetSlider = () => {
+  slider.noUiSlider.reset();
+  img.style.filter = 'none';
+  sliderContainer.classList.add('hidden');
+};
+
 const applyEffect = (value) => {
   const effect = effectsSettings[currentEffect];
 
@@ -35,8 +42,7 @@ const updateSlider = () => {
   const effect = effectsSettings[currentEffect];
 
   if (!effect) {
-    img.style.filter = 'none';
-    sliderContainer.classList.add('hidden');
+    resetSlider();
     return;
   }
 
@@ -61,4 +67,7 @@ const onRadioButtonChange = (evt) => {
   }
 };
 
+
 effectsFieldset.addEventListener('change', onRadioButtonChange);
+
+export { resetSlider };
