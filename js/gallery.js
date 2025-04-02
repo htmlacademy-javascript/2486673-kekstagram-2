@@ -19,6 +19,11 @@ const createThumbnail = ({url, description, likes, comments, id}) => {
   return thumbnail;
 };
 
+// очищает блок миниатюр
+const clearThumbnails = () => {
+  container.querySelectorAll('.picture').forEach((thumbnail) => thumbnail.remove());
+};
+
 // создает блок миниатюр
 
 const renderThumbnails = (photosArray) => {
@@ -55,7 +60,7 @@ const getSelectedThumbnailData = (photosArray) => {
 // передает исходные данные
 
 const initGallery = (photosArray) => {
-
+  clearThumbnails();
   renderThumbnails(photosArray);
   getSelectedThumbnailData(photosArray);
 };
