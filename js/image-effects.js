@@ -61,7 +61,7 @@ slider.noUiSlider.on('update', () => {
 });
 
 const onRadioButtonChange = (evt) => {
-  if (evt.target.matches('.effects__radio')) {
+  if (evt.target.matches('#filter-random')) {
     currentEffect = evt.target.value;
     updateSlider();
   }
