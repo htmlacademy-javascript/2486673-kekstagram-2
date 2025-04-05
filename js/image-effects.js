@@ -24,6 +24,8 @@ const resetSlider = () => {
   slider.noUiSlider.reset();
   img.style.filter = 'none';
   sliderContainer.classList.add('hidden');
+  img.style.transform = 'none';
+  currentEffect = 'none';
 };
 
 const applyEffect = (value) => {
@@ -31,7 +33,7 @@ const applyEffect = (value) => {
 
   if (effect) {
     img.style.filter = `${effect.filter}(${value}${effect.unit})`;
-  } else { //удаляет слайдер при вызове формы.
+  } else {
     img.style.filter = 'none';
     sliderContainer.classList.add('hidden');
   }
@@ -61,13 +63,11 @@ slider.noUiSlider.on('update', () => {
 });
 
 const onRadioButtonChange = (evt) => {
-  if (evt.target.matches('#filter-random')) {
-    currentEffect = evt.target.value;
-    updateSlider();
-  }
+  currentEffect = evt.target.value;
+  updateSlider();
 };
 
 
 effectsFieldset.addEventListener('change', onRadioButtonChange);
 
-export { resetSlider };
+export { resetSlider, updateSlider };
