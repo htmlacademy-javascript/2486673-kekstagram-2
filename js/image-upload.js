@@ -1,6 +1,6 @@
 import { resetSlider, updateSlider } from './image-effects.js';
 
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const FILE_TYPES = ['.jpg', '.jpeg', '.png'];
 
 const fileChooser = document.querySelector('.img-upload__input');
 const image = document.querySelector('.img-upload__preview img');
