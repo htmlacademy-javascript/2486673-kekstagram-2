@@ -18,7 +18,7 @@ const imageFilters = document.querySelector('.img-filters');
 
 let images = [];
 
-//применение фильтра
+// применение фильтра
 
 const applyFilter = debounce((id) => {
   let filteredImages = images;
