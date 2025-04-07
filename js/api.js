@@ -2,7 +2,7 @@ const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
 const Route = {
   GET: '/data',
-  POST: '/'
+  POST: ''
 };
 
 const Method = {

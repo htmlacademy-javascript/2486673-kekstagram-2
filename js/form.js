@@ -7,6 +7,7 @@ const input = form.querySelector('.img-upload__input');
 const uploadForm = form.querySelector('.img-upload__overlay');
 const formCloseButton = form.querySelector('.img-upload__cancel');
 const commentInput = form.querySelector('.text__description');
+const hashtagInput = form.querySelector('.text__hashtags');
 
 const openForm = () => {
   uploadForm.classList.remove('hidden');
@@ -31,7 +32,7 @@ const onFormCloseButtonClick = () => {
 };
 
 function onFormKeydown(evt) {
-  if (isEscapeKey(evt) && document.activeElement !== commentInput) {
+  if (isEscapeKey(evt) && document.activeElement !== commentInput && document.activeElement !== hashtagInput) {
     evt.preventDefault();
     closeForm();
   }
