@@ -58,7 +58,8 @@ const updateSlider = () => {
 };
 
 slider.noUiSlider.on('update', () => {
-  effectValue.value = slider.noUiSlider.get();
+  const value = Number(slider.noUiSlider.get());
+  effectValue.value = (value % 1 === 0) ? String(value) : value.toFixed(1);
   applyEffect(effectValue.value);
 });
 

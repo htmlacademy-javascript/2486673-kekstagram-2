@@ -4,6 +4,7 @@ const FILE_TYPES = ['.jpg', '.jpeg', '.png'];
 
 const fileChooser = document.querySelector('.img-upload__input');
 const image = document.querySelector('.img-upload__preview img');
+const effectsPreview = document.querySelectorAll('.effects__preview');
 
 fileChooser.addEventListener('change', () => {
   const file = fileChooser.files[0];
@@ -12,7 +13,14 @@ fileChooser.addEventListener('change', () => {
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
-    image.src = URL.createObjectURL(file);
+    const imageUrl = URL.createObjectURL(file);
+
+    image.src = imageUrl;
+
+    effectsPreview.forEach((preview) => {
+      preview.style.backgroundImage = `url(${imageUrl})`;
+    });
+
     resetSlider();
     updateSlider();
   }
