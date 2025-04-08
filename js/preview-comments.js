@@ -7,26 +7,32 @@ const previewCommentsList = document.querySelector('.social__comments');
 let comments = [];
 let commentsShown = 0;
 
-// создает элемент комментария
+//создает элемент комментария
 
 const getPreviewComment = (commentData) => {
   const previewComment = document.createElement('li');
   previewComment.classList.add('social__comment');
 
-  previewComment.innerHTML = `
-  <img
-    class="social__picture"
-    src="${commentData.avatar}"
-    alt="${commentData.name}"
-    width="35" height="35">
-  <p class="social__text">${commentData.message}</p>`;
+  const avatar = document.createElement('img');
+  avatar.classList.add('social__picture');
+  avatar.src = commentData.avatar;
+  avatar.alt = commentData.name;
+  avatar.width = 35;
+  avatar.height = 35;
+
+  const message = document.createElement('p');
+  message.classList.add('social__text');
+  message.textContent = commentData.message;
+
+  previewComment.appendChild(avatar);
+  previewComment.appendChild(message);
 
   return previewComment;
 };
 
 // добавляет комментарии в список
 
-const addComment = (commentsBlock) => {
+const addComments = (commentsBlock) => {
   commentsBlock.forEach((comment) => {
     previewCommentsList.append(getPreviewComment(comment));
   });
@@ -43,7 +49,7 @@ const checkButtonClass = () => {
 const onPreviewMoreButtonClick = () => {
 
   const nextComments = comments.slice(commentsShown, commentsShown + COMMENTS_NUMBER);
-  addComment(nextComments);
+  addComments(nextComments);
   commentsShown += nextComments.length;
 
   checkButtonClass();

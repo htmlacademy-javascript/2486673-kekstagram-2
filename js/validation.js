@@ -2,6 +2,7 @@ import { sendFormData } from './form-send.js';
 
 const HASHTAG_AMOUNT = 5;
 const COMMENT_LENGTH = 140;
+const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const ErrorMessages = {
   TOO_MANY: 'Нельзя использовать больше 5 хэштегов',
@@ -13,7 +14,6 @@ const ErrorMessages = {
 const form = document.querySelector('.img-upload__form');
 const commentInput = form.querySelector('.text__description');
 const hashtagInput = form.querySelector('.text__hashtags');
-const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const getHashtagsArray = (value) => value.trim().toLowerCase().split(/\s+/).filter(Boolean);
 
@@ -29,7 +29,7 @@ const hashtagDuplicateValidate = (value) => {
 
 const hashtagFormatValidate = (value) => {
   const hashtags = getHashtagsArray(value);
-  return hashtags.every((hashtag) => hashtagRegex.test(hashtag));
+  return hashtags.every((hashtag) => HASHTAG_REGEX.test(hashtag));
 };
 
 // // валидатор комментариев
