@@ -21,6 +21,7 @@ const closeForm = () => {
   resetSlider();
   form.reset();
   document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onFormKeydown);
 };
 
 const onUploadInputChange = () => {
